@@ -14,6 +14,7 @@ A Flutter plugin to show custom Toast notifications with various styles and icon
   s.author           = { 'xianwen-zhu' => 'fmxianwen@gmail.com' }
   s.source           = { :git => 'https://github.com/xianwen-zhu/flutter_fancy_toast.git', :tag => s.version.to_s }
   s.source_files     = 'Classes/**/*'
+  s.resource_bundles = {'Image_Picker'=>['Assets/*.png']}
   s.dependency       'Flutter'
   s.platform         = :ios, '11.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

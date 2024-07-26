@@ -4,6 +4,12 @@ import 'package:flutter/services.dart';
 import 'fancy_toast_platform_interface.dart';
 
 /// An implementation of [FancyToastPlatform] that uses method channels.
+
+enum ToastType {
+  success,
+  error,
+  warning,
+}
 class MethodChannelFancyToast extends FancyToastPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
@@ -18,19 +24,27 @@ class MethodChannelFancyToast extends FancyToastPlatform {
 
   /// Method to show an icon toast
   @override
-  Future<void> showIconToast(String message, String iconName) async {
+  Future<void> showIconToast(String message, ToastType type) async {
     await methodChannel.invokeMethod('showIconToast', {
       'message': message,
-      'iconName': iconName,
+      'type': type.index, // Sending the index of the enum to native code
     });
   }
 
-  /// Method to show a custom toast
+  /// Method to show an loading toast
   @override
-  Future<void> showCustomToast(String message, String customStyle) async {
-    await methodChannel.invokeMethod('showCustomToast', {
+  Future<void> showLoadingToast(String message) async {
+    await methodChannel.invokeMethod('showLoadingToast', {
       'message': message,
-      'customStyle': customStyle,
     });
   }
+
+  /// Method to show an hideToast
+  @override
+  Future<void> hideToast() async {
+    await methodChannel.invokeMethod('hideToast', {
+    });
+  }
+
+
 }

@@ -27,12 +27,20 @@ abstract class FancyToastPlatform extends PlatformInterface {
     throw UnimplementedError('showTextToast() has not been implemented.');
   }
 
-  Future<void> showIconToast(String message, String icon) {
+  Future<void> showIconToast(String message, ToastType type) {
     throw UnimplementedError('showIconToast() has not been implemented.');
   }
 
-  Future<void> showCustomToast(String message, String style) {
-    throw UnimplementedError('showCustomToast() has not been implemented.');
+  Future<void> showLoadingToast(String message) {
+    throw UnimplementedError('showLoadingToast() has not been implemented.');
   }
+
+  Future<void> hideToast() {
+    throw UnimplementedError('hideToast() has not been implemented.');
+  }
+
+
+
+
 }
 

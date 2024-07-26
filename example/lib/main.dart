@@ -1,3 +1,4 @@
+import 'package:fancy_toast/fancy_toast_method_channel.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fancy_toast/fancy_toast.dart';
@@ -31,11 +32,20 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _showIconToast() {
-    _fancyToastPlugin.showIconToast('这是一个带图标的 Toast', 'icon_name');
+    _fancyToastPlugin.showIconToast("上传成功", ToastType.success);
   }
 
-  void _showCustomToast() {
-    _fancyToastPlugin.showCustomToast('这是一个自定义样式的 Toast', 'custom_style');
+  void _showLoadingToast() {
+    _fancyToastPlugin.showLoadingToast('正在加载');
+
+    // 设置一个定时器，五秒钟后调用 _hideToast
+    Timer(Duration(seconds: 5), () {
+      _hideToast();
+    });
+  }
+
+  void _hideToast() {
+    _fancyToastPlugin.hideToast();
   }
 
   @override
@@ -60,8 +70,8 @@ class _MyAppState extends State<MyApp> {
               ),
               SizedBox(height: 16),
               ElevatedButton(
-                onPressed: _showCustomToast,
-                child: Text('显示自定义样式的 Toast'),
+                onPressed: _showLoadingToast,
+                child: Text('显示loading'),
               ),
             ],
           ),

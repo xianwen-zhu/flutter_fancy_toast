@@ -9,16 +9,7 @@ class MockFancyToastPlatform
     implements FancyToastPlatform {
 
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
-
-  @override
-  Future<void> showCustomToast(String message, String style) {
-    // TODO: implement showCustomToast
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> showIconToast(String message, String icon) {
+  Future<void> showIconToast(String message, ToastType type) {
     // TODO: implement showIconToast
     throw UnimplementedError();
   }
@@ -26,6 +17,18 @@ class MockFancyToastPlatform
   @override
   Future<void> showTextToast(String message) {
     // TODO: implement showTextToast
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> showLoadingToast(String message) {
+    // TODO: implement showLoadingToast
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> hideToast() {
+    // TODO: implement showLoadingToast
     throw UnimplementedError();
   }
 
