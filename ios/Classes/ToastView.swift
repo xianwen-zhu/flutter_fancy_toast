@@ -151,7 +151,7 @@ class ToastView: UIView {
     }
 
     /// 显示加载动画 Toast 并禁用用户交互
-    static func showLoadingToast(message: String) -> ToastView? {
+    static func showLoadingToast(message: String){
         guard let window = UIApplication.shared.keyWindow else { return nil }
 
         // 移除当前的 Toast 和覆盖视图

@@ -23,8 +23,8 @@ allprojects {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply from: "./resolve_dependencies.gradle"
-
 
 android {
     if (project.android.hasProperty("namespace")) {
@@ -43,7 +43,10 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        main {
+            java.srcDirs += 'src/main/kotlin'
+            res.srcDirs = ['src/main/res'] // 确保res路径被包含
+        }
         test.java.srcDirs += 'src/test/kotlin'
     }
 
@@ -52,6 +55,16 @@ android {
     }
 
     dependencies {
+        // Kotlin 标准库
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+        // Glide 用于加载图片和 GIF
+        implementation 'com.github.bumptech.glide:glide:4.12.0'
+        kapt 'com.github.bumptech.glide:compiler:4.12.0'
+
+        implementation 'androidx.appcompat:appcompat:1.6.1'
+
+        // 其他依赖
         testImplementation 'org.jetbrains.kotlin:kotlin-test'
         testImplementation 'org.mockito:mockito-core:5.0.0'
     }
@@ -61,9 +74,9 @@ android {
             useJUnitPlatform()
 
             testLogging {
-               events "passed", "skipped", "failed", "standardOut", "standardError"
-               outputs.upToDateWhen {false}
-               showStandardStreams = true
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
             }
         }
     }

@@ -1,19 +1,24 @@
 package com.example.fancy_toast
 
+import com.example.fancytoast.FancyToastManager
+
+import android.app.Activity
 import android.content.Context
-import android.widget.Toast
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
-class FancyToastPlugin: FlutterPlugin, MethodCallHandler {
+class FancyToastPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
+
   private lateinit var channel: MethodChannel
   private lateinit var context: Context
+  private var activity: Activity? = null
 
-  override fun onAttachedToEngine(binding: FlutterPluginBinding) {
+  override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(binding.binaryMessenger, "fancy_toast")
     channel.setMethodCallHandler(this)
     context = binding.applicationContext
@@ -23,32 +28,68 @@ class FancyToastPlugin: FlutterPlugin, MethodCallHandler {
     when (call.method) {
       "showTextToast" -> {
         val message = call.argument<String>("message")
-        message?.let {
-          Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        if (message != null) {
+          // 使用 activity 作为 context，如果 activity 可用
+          val ctx = activity ?: context
+          FancyToastManager.instance.showToast(ctx, message)
+          result.success(null)
+        } else {
+          result.error("INVALID_ARGUMENT", "Message argument is missing", null)
         }
-        result.success(null)
       }
       "showIconToast" -> {
         val message = call.argument<String>("message")
-        // Here, you would need to handle showing an icon in the toast
-        message?.let {
-          Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        val typeIndex = call.argument<Int>("type")
+        if (message != null && typeIndex != null) {
+          val style = FancyToastManager.ToastStyle.values().getOrNull(typeIndex)
+          if (style != null) {
+            val ctx = activity ?: context
+            FancyToastManager.instance.showIconToast(ctx, message, style)
+            result.success(null)
+          } else {
+            result.error("INVALID_ARGUMENT", "Invalid style type", null)
+          }
+        } else {
+          result.error("INVALID_ARGUMENT", "Message or type argument is missing", null)
         }
-        result.success(null)
       }
-      "showCustomToast" -> {
+      "showLoadingToast" -> {
         val message = call.argument<String>("message")
-        // Implement custom toast view here
-        message?.let {
-          Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        if (message != null) {
+          // 使用 activity 作为 context，如果 activity 可用
+          val ctx = activity ?: context
+          FancyToastManager.instance.showLoading(ctx, message)
+          result.success(null)
+        } else {
+          result.error("INVALID_ARGUMENT", "Message argument is missing", null)
         }
+      }
+      "hideToast" -> {
+        FancyToastManager.instance.dismissActiveToast()
         result.success(null)
       }
       else -> result.notImplemented()
     }
   }
 
-  override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
+  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+  }
+
+  // Implement ActivityAware to get the current Activity instance
+  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    activity = binding.activity
+  }
+
+  override fun onDetachedFromActivityForConfigChanges() {
+    activity = null
+  }
+
+  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+    activity = binding.activity
+  }
+
+  override fun onDetachedFromActivity() {
+    activity = null
   }
 }

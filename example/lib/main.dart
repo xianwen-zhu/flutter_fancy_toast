@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     _fancyToastPlugin.showLoadingToast('正在加载');
 
     // 设置一个定时器，五秒钟后调用 _hideToast
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(seconds: 20), () {
       _hideToast();
     });
   }
