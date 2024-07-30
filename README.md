@@ -16,7 +16,7 @@ Fancy Toast 提供了一组易于使用且高度可定制的提示框，适用�
   fancy_toast:
     git:
       url: https://github.com/xianwen-zhu/flutter_fancy_toast.git
-      ref: v0.0.5
+      ref: v版本号
 
 2. 获取依赖
 
