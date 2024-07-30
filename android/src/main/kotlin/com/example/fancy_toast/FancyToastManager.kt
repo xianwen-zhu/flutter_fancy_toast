@@ -1,3 +1,10 @@
+//
+//  FancyToastManager.kt
+//  fancy_toast
+//
+//  Created by 朱先文 on 2024/7/27.
+//
+
 package com.example.fancytoast
 
 import android.app.Activity

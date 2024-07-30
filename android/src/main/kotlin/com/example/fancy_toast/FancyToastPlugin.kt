@@ -1,3 +1,10 @@
+
+//
+//  FancyToastPlugin.kt
+//  fancy_toast
+//
+//  Created by 朱先文 on 2024/7/27.
+//
 package com.example.fancy_toast
 
 import com.example.fancytoast.FancyToastManager
