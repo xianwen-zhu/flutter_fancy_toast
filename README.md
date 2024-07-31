@@ -38,7 +38,7 @@ Fancy Toast 提供了一组易于使用且高度可定制的提示框，适用�
  显示图标提示
 
 你可以根据不同的情境显示不同的图标提示，例如成功、错误和警告：
-    _fancyToastPlugin.showIconToast("操作成功", ToastType.success);
+    _fancyToastPlugin.showTextToast('这是一个简单的文字 Toast',position: ToastPosition.center);
     _fancyToastPlugin.showIconToast("操作失败", ToastType.error);
     _fancyToastPlugin.showIconToast("警告信息", ToastType.warning);
 
