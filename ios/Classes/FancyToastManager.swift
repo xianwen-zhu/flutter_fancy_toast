@@ -13,21 +13,21 @@ class FancyToastManager {
     
     private init() {}
     
-    func showToast(message: String, style: ToastView.ToastType? = nil) {
+    func showToast(message: String, style: ToastView.ToastType? = nil, position: ToastView.Position = .center) {
         DispatchQueue.main.async {
             self.dismissActiveToast()
             if let style = style {
-                ToastView.showIconToast(message: message, type: style)
+                ToastView.showIconToast(message: message, type: style, position: position)
             } else {
-                ToastView.showToast(message: message)
+                ToastView.showToast(message: message, position: position)
             }
         }
     }
     
-    func showLoading(message: String) {
+    func showLoading(message: String, position: ToastView.Position = .center) {
         DispatchQueue.main.async {
             self.dismissActiveToast()
-            ToastView.showLoadingToast(message: message)
+            ToastView.showLoadingToast(message: message, position: position)
         }
     }
 

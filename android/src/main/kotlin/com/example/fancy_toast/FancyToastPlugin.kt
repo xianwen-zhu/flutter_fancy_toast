@@ -35,10 +35,10 @@ class FancyToastPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     when (call.method) {
       "showTextToast" -> {
         val message = call.argument<String>("message")
+        val position = call.argument<String>("position") ?: "center"
         if (message != null) {
-          // 使用 activity 作为 context，如果 activity 可用
           val ctx = activity ?: context
-          FancyToastManager.instance.showToast(ctx, message)
+          FancyToastManager.instance.showToast(ctx, message, position)
           result.success(null)
         } else {
           result.error("INVALID_ARGUMENT", "Message argument is missing", null)
@@ -47,11 +47,12 @@ class FancyToastPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       "showIconToast" -> {
         val message = call.argument<String>("message")
         val typeIndex = call.argument<Int>("type")
+        val position = call.argument<String>("position") ?: "center"
         if (message != null && typeIndex != null) {
           val style = FancyToastManager.ToastStyle.values().getOrNull(typeIndex)
           if (style != null) {
             val ctx = activity ?: context
-            FancyToastManager.instance.showIconToast(ctx, message, style)
+            FancyToastManager.instance.showIconToast(ctx, message, style, position)
             result.success(null)
           } else {
             result.error("INVALID_ARGUMENT", "Invalid style type", null)
@@ -62,10 +63,10 @@ class FancyToastPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
       "showLoadingToast" -> {
         val message = call.argument<String>("message")
+        val position = call.argument<String>("position") ?: "center"
         if (message != null) {
-          // 使用 activity 作为 context，如果 activity 可用
           val ctx = activity ?: context
-          FancyToastManager.instance.showLoading(ctx, message)
+          FancyToastManager.instance.showLoading(ctx, message, position)
           result.success(null)
         } else {
           result.error("INVALID_ARGUMENT", "Message argument is missing", null)
@@ -83,7 +84,6 @@ class FancyToastPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     channel.setMethodCallHandler(null)
   }
 
-  // Implement ActivityAware to get the current Activity instance
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     activity = binding.activity
   }
