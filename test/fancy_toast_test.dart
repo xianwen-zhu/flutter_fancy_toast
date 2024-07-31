@@ -9,19 +9,19 @@ class MockFancyToastPlatform
     implements FancyToastPlatform {
 
   @override
-  Future<void> showIconToast(String message, ToastType type) {
-    // TODO: implement showIconToast
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> showTextToast(String message) {
+  Future<void> showTextToast(String message, {ToastPosition position = ToastPosition.bottom}) {
     // TODO: implement showTextToast
     throw UnimplementedError();
   }
 
   @override
-  Future<void> showLoadingToast(String message) {
+  Future<void> showIconToast(String message, ToastType type, {ToastPosition position = ToastPosition.center}) {
+    // TODO: implement showIconToast
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> showLoadingToast(String message, {ToastPosition position = ToastPosition.center}) {
     // TODO: implement showLoadingToast
     throw UnimplementedError();
   }

@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _showTextToast() {
-    _fancyToastPlugin.showTextToast('这是一个简单的文字 Toast');
+    _fancyToastPlugin.showTextToast('这是一个简单的文字 Toast',position: ToastPosition.top);
   }
 
   void _showIconToast() {

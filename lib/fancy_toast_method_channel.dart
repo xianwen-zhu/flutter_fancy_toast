@@ -1,50 +1,70 @@
+//
+//  MethodChannelFancyToast.dart
+//  fancy_toast
+//
+//  Created by 朱先文 on 2024/7/26.
+//
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
 import 'fancy_toast_platform_interface.dart';
-
-/// An implementation of [FancyToastPlatform] that uses method channels.
 
 enum ToastType {
   success,
   error,
   warning,
 }
+
+enum ToastPosition {
+  top,
+  center,
+  bottom,
+}
+
 class MethodChannelFancyToast extends FancyToastPlatform {
-  /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('fancy_toast');
 
-
-  /// Method to show a text toast
-  @override
-  Future<void> showTextToast(String message) async {
-    await methodChannel.invokeMethod('showTextToast', {'message': message});
+  String _convertPositionToString(ToastPosition position) {
+    switch (position) {
+      case ToastPosition.top:
+        return 'top';
+      case ToastPosition.center:
+        return 'center';
+      case ToastPosition.bottom:
+        return 'bottom';
+      default:
+        return 'center';
+    }
   }
 
-  /// Method to show an icon toast
   @override
-  Future<void> showIconToast(String message, ToastType type) async {
+  Future<void> showTextToast(String message, {ToastPosition position = ToastPosition.center}) async {
+    await methodChannel.invokeMethod('showTextToast', {
+      'message': message,
+      'position': _convertPositionToString(position),
+    });
+  }
+
+  @override
+  Future<void> showIconToast(String message, ToastType type, {ToastPosition position = ToastPosition.center}) async {
     await methodChannel.invokeMethod('showIconToast', {
       'message': message,
-      'type': type.index, // Sending the index of the enum to native code
+      'type': type.index,
+      'position': _convertPositionToString(position),
     });
   }
 
-  /// Method to show an loading toast
   @override
-  Future<void> showLoadingToast(String message) async {
+  Future<void> showLoadingToast(String message, {ToastPosition position = ToastPosition.center}) async {
     await methodChannel.invokeMethod('showLoadingToast', {
       'message': message,
+      'position': _convertPositionToString(position),
     });
   }
 
-  /// Method to show an hideToast
   @override
   Future<void> hideToast() async {
-    await methodChannel.invokeMethod('hideToast', {
-    });
+    await methodChannel.invokeMethod('hideToast');
   }
-
-
 }

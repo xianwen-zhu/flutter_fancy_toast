@@ -29,7 +29,7 @@ class FancyToastManager private constructor() {
         val instance: FancyToastManager by lazy { FancyToastManager() }
     }
 
-    fun showToast(context: Context, message: String) {
+    fun showToast(context: Context, message: String, position: String = "center") {
         dismissActiveToast()
         val inflater = LayoutInflater.from(context)
         val layout: View = inflater.inflate(R.layout.toast_text, null)
@@ -44,17 +44,22 @@ class FancyToastManager private constructor() {
 
         layout.layoutParams = ViewGroup.LayoutParams(toastWidth, toastHeight)
 
+        val gravity = when (position) {
+            "top" -> Gravity.TOP or Gravity.CENTER_HORIZONTAL
+            "bottom" -> Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            else -> Gravity.CENTER
+        }
+
         currentToast = Toast(context).apply {
             duration = Toast.LENGTH_SHORT
             view = layout
-            setGravity(Gravity.CENTER, 0, 0)
+            setGravity(gravity, 0, 100)  // Adjust the offset as needed
             show()
         }
     }
 
-    fun showIconToast(context: Context, message: String, style: ToastStyle) {
+    fun showIconToast(context: Context, message: String, style: ToastStyle, position: String = "center") {
         dismissActiveToast()
-
         val inflater = LayoutInflater.from(context)
         val layout: View = inflater.inflate(R.layout.toast_icon, null)
 
@@ -67,15 +72,21 @@ class FancyToastManager private constructor() {
         layout.findViewById<ImageView>(R.id.toast_icon).setImageResource(iconRes)
         layout.findViewById<TextView>(R.id.toast_message).text = message
 
+        val gravity = when (position) {
+            "top" -> Gravity.TOP or Gravity.CENTER_HORIZONTAL
+            "bottom" -> Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            else -> Gravity.CENTER
+        }
+
         currentToast = Toast(context).apply {
             duration = Toast.LENGTH_SHORT
             view = layout
-            setGravity(Gravity.CENTER, 0, 0)
+            setGravity(gravity, 0, 100)  // Adjust the offset as needed
             show()
         }
     }
 
-    fun showLoading(context: Context, message: String) {
+    fun showLoading(context: Context, message: String, position: String = "center") {
         dismissActiveToast() // 取消当前显示的Toast或Dialog（如果有的话）
 
         if (context !is Activity) {
