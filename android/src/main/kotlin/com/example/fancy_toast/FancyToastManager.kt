@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -97,6 +98,7 @@ class FancyToastManager private constructor() {
             setContentView(R.layout.toast_loading)
             setCancelable(false) // 设置为不可取消
             window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window?.setGravity(Gravity.CENTER)
 
             val gifImageView = findViewById<ImageView>(R.id.loading_image)
